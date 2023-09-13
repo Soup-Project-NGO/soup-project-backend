@@ -1,0 +1,28 @@
+{
+  "name": "soup-project-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Soup-Project-NGO/soup-project-backend.git",
+  "author": "RyanMatheuZ <contato.ryanoliveira@outlook.com>",
+  "license": "MIT",
+  "scripts": {
+    "start:dev": "nodemon --watch './src/' --exec 'ts-node ./src/index.ts' -e ts"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/node": "^20.6.0",
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
+    "@typescript-eslint/parser": "^6.7.0",
+    "dotenv": "^16.3.1",
+    "eslint": "^8.49.0",
+    "eslint-config-prettier": "^9.0.0",
+    "nodemon": "^3.0.1",
+    "prettier": "^3.0.3",
+    "ts-node": "^10.9.1",
+    "tsc": "^2.0.4",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
