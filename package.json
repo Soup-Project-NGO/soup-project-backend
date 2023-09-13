@@ -1,0 +1,17 @@
+{
+  "name": "soup-project-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Soup-Project-NGO/soup-project-backend.git",
+  "author": "RyanMatheuZ <contato.ryanoliveira@outlook.com>",
+  "license": "MIT",
+  "scripts": {
+    "start:dev": "nodemon --watch './src/' --exec 'ts-node ./src/index.ts' -e ts"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
+    "tsc": "^2.0.4",
+    "typescript": "^5.2.2"
+  }
+}
