@@ -5,6 +5,9 @@
   "repository": "https://github.com/Soup-Project-NGO/soup-project-backend.git",
   "author": "RyanMatheuZ <contato.ryanoliveira@outlook.com>",
   "license": "MIT",
+  "engines": {
+    "node": "18"
+  },
   "scripts": {
     "build": "tsc",
     "start": "ts-node -r tsconfig-paths/register dist/server.js",
