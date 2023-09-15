@@ -1,10 +1,11 @@
 import type { IUser } from '@models/index';
 
+import type { TCreateUserParams } from '@controllers/user/user.models';
 import type { HttpResponse, HttpRequest } from '@controllers/protocols';
 
 import { encryptPassword, isEmptyObject } from '@utils/index';
 
-import type { TCreateUserParams, IAuthCreateUserController, IAuthCreateUserRepository } from './protocols';
+import type { IAuthCreateUserController, IAuthCreateUserRepository } from './protocols';
 
 export class AuthCreateUserController implements IAuthCreateUserController {
   constructor(
@@ -13,7 +14,7 @@ export class AuthCreateUserController implements IAuthCreateUserController {
 
   async handle(httpRequest: HttpRequest<TCreateUserParams>): Promise<HttpResponse<IUser>> {
     try {
-      if (isEmptyObject(httpRequest.body)) return {
+      if (isEmptyObject(httpRequest.body as TCreateUserParams) || !httpRequest.body) return {
         statusCode: 400,
         message: 'Insira todos os dados do usuário!'
       };
@@ -40,7 +41,7 @@ export class AuthCreateUserController implements IAuthCreateUserController {
     } catch (error) {
       return {
         statusCode: 500,
-        message: 'Algo deu errado!'
+        message: `Algo deu errado | ${error}`
       };
     }
   }
