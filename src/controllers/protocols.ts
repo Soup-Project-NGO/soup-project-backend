@@ -5,8 +5,8 @@ export interface HttpResponse<T> {
   message?: string;
 }
 
-export interface HttpRequest<T> {
-  params?: any;
+export interface HttpRequest<T, P extends Record<string, any> | undefined = undefined> {
+  params?: P;
   headers?: any;
-  body: T;
+  body?: T;
 }
