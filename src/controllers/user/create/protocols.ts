@@ -10,4 +10,5 @@ export interface IAuthCreateUserController {
 
 export interface IAuthCreateUserRepository {
   createUser(params: TCreateUserParams): Promise<IUser>;
+  isUserAlreadyRegistered(userPhone: IUser['phone']): Promise<boolean>;
 }

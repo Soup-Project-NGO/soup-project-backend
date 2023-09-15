@@ -1,5 +1,3 @@
-import MongoDB from '@database/mongo';
-
 import type { IUser } from '@models/index';
 
 import type { HttpResponse, HttpRequest } from '@controllers/protocols';
@@ -14,23 +12,17 @@ export class AuthCreateUserController implements IAuthCreateUserController {
   ) { }
 
   async handle(httpRequest: HttpRequest<TCreateUserParams>): Promise<HttpResponse<IUser>> {
-    const collection = 'user';
-
-    const db = MongoDB.getDb();
-
     try {
       if (isEmptyObject(httpRequest.body)) return {
         statusCode: 400,
         message: 'Insira todos os dados do usuário!'
       };
 
-      const isUserAlreadyRegistered = !!await db
-        .collection<TCreateUserParams>(collection)
-        .findOne({ phone: httpRequest.body.phone });
+      const isPhoneNumberAlreadyRegistered = await this.authCreateUserRepository.isUserAlreadyRegistered(httpRequest.body.phone);
 
-      if (isUserAlreadyRegistered) return {
+      if (isPhoneNumberAlreadyRegistered) return {
         statusCode: 409,
-        message: 'Usuário já cadastrado!'
+        message: 'Número de celular já cadastrado!'
       };
 
       const body = {
@@ -43,7 +35,7 @@ export class AuthCreateUserController implements IAuthCreateUserController {
       return {
         statusCode: 201,
         body: user,
-        message: 'Usuário registrado com sucesso!'
+        message: 'Usuário cadastrado com sucesso!'
       };
     } catch (error) {
       return {
