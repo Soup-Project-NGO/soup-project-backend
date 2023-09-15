@@ -5,6 +5,9 @@ import type { IUser } from '@models/user';
 import { AuthCreateUserController } from '@controllers/user/auth-create';
 import { MongoAuthCreateUserRepository } from '@repositories/user/auth-create/mongo-auth-create';
 
+import { AuthUserSignController } from '@controllers/user/auth-sign-in';
+import { MongoAuthUserSignInRepository } from '@repositories/user/auth-sign-in/mongo-auth-sign-in';
+
 import { GetUserByIdController } from '@controllers/user/get-by-id';
 import { MongoGetUserByIdRepository } from '@repositories/user/get-by-id/mongo-get-by-id';
 
@@ -12,12 +15,24 @@ const router = Router();
 
 const baseRoute = '/api/v1/';
 
-router.post(`${baseRoute}auth/user`, async (req: Request, res: Response) => {
+router.post(`${baseRoute}auth/user/create`, async (req: Request, res: Response) => {
   const mongoAuthCreateUserRepository = new MongoAuthCreateUserRepository();
 
   const authCreateUserController = new AuthCreateUserController(mongoAuthCreateUserRepository);
 
   const { statusCode, body, message } = await authCreateUserController.handle({
+    body: req.body
+  });
+
+  res.status(statusCode).json({ body, message });
+});
+
+router.get(`${baseRoute}auth/user/sign-in`, async (req: Request, res: Response) => {
+  const mongoAuthUserSignInRepository = new MongoAuthUserSignInRepository();
+
+  const authUserSignController = new AuthUserSignController(mongoAuthUserSignInRepository);
+
+  const { statusCode, body, message } = await authUserSignController.handle({
     body: req.body
   });
 

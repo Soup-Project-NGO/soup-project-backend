@@ -14,7 +14,7 @@ export class AuthCreateUserController implements IAuthCreateUserController {
 
   async handle(httpRequest: HttpRequest<TCreateUserParams>): Promise<HttpResponse<IUser>> {
     try {
-      if (isEmptyObject(httpRequest.body as TCreateUserParams) || !httpRequest.body) return {
+      if (!httpRequest.body || isEmptyObject(httpRequest.body)) return {
         statusCode: 400,
         message: 'Insira todos os dados do usuário!'
       };
@@ -36,7 +36,7 @@ export class AuthCreateUserController implements IAuthCreateUserController {
       return {
         statusCode: 201,
         body: user,
-        message: 'Usuário cadastrado com sucesso!'
+        message: 'Usuário cadastrado!'
       };
     } catch (error) {
       return {
