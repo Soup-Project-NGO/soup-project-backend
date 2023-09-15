@@ -6,7 +6,7 @@ import type { IGetUserByIdController, IGetUserByIdRepository } from './protocols
 
 export class GetUserByIdController implements IGetUserByIdController {
   constructor(
-    private getUserByIdRepository: IGetUserByIdRepository
+    private readonly getUserByIdRepository: IGetUserByIdRepository
   ) { }
 
   async handle(httpRequest: HttpRequest<null, { userId: IUser['id'] }>): Promise<HttpResponse<IUser>> {
