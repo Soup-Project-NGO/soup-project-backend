@@ -3,9 +3,9 @@ import type { IUser } from '@models/index';
 import type { TCreateUserParams } from '@controllers/user/user.models';
 import type { HttpResponse, HttpRequest } from '@controllers/protocols';
 
-import { encryptPassword, isEmptyObject } from '@utils/index';
+import { bodyValidator, encryptPassword } from '@utils/index';
 
-import type { IAuthCreateUserController, IAuthCreateUserRepository } from './protocols';
+import { bodyRequiredProps, type IAuthCreateUserController, type IAuthCreateUserRepository } from './protocols';
 
 export class AuthCreateUserController implements IAuthCreateUserController {
   constructor(
@@ -14,9 +14,11 @@ export class AuthCreateUserController implements IAuthCreateUserController {
 
   async handle(httpRequest: HttpRequest<TCreateUserParams>): Promise<HttpResponse<IUser>> {
     try {
-      if (!httpRequest.body || isEmptyObject(httpRequest.body)) return {
+      const missingProps = bodyValidator(httpRequest.body, bodyRequiredProps);
+
+      if (!httpRequest.body || missingProps.missingProps.length) return {
         statusCode: 400,
-        message: 'Insira todos os dados do usuário!'
+        message: `Campos ausentes: ${missingProps.formattedMissingProps}`
       };
 
       const isPhoneNumberAlreadyRegistered = await this.authCreateUserRepository.isUserAlreadyRegistered(httpRequest.body.phone);

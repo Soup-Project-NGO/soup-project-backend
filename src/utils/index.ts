@@ -1,3 +1,3 @@
 export * from './bcrypt';
-export * from './isEmptyObject';
+export * from './bodyValidator';
 export * from './removeIdUnderline';

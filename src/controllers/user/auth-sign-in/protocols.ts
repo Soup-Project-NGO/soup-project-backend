@@ -5,6 +5,8 @@ import type { IUser } from '@models/index';
 import type { TCreateUserParams } from '@controllers/user/user.models';
 import type { HttpResponse, HttpRequest } from '@controllers/protocols';
 
+export const bodyRequiredProps: (keyof IAuthUserSignIn)[] = ['phone', 'password'];
+
 export interface IAuthUserSignIn {
   phone: IUser['phone'];
   password: IUser['password'];

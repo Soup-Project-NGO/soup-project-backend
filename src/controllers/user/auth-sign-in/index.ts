@@ -2,9 +2,9 @@ import type { IUser } from '@models/index';
 
 import type { HttpResponse, HttpRequest } from '@controllers/protocols';
 
-import { isEmptyObject, comparePassword } from '@utils/index';
+import { bodyValidator, comparePassword } from '@utils/index';
 
-import type { IAuthUserSignIn, IAuthUserSignInController, IAuthUserSignInRepository } from './protocols';
+import { bodyRequiredProps, type IAuthUserSignIn, type IAuthUserSignInController, type IAuthUserSignInRepository } from './protocols';
 
 export class AuthUserSignController implements IAuthUserSignInController {
   constructor(
@@ -13,9 +13,11 @@ export class AuthUserSignController implements IAuthUserSignInController {
 
   async handle(httpRequest: HttpRequest<IAuthUserSignIn>): Promise<HttpResponse<IUser>> {
     try {
-      if (!httpRequest.body || isEmptyObject(httpRequest.body)) return {
+      const missingProps = bodyValidator(httpRequest.body, bodyRequiredProps);
+
+      if (!httpRequest.body || missingProps.missingProps.length) return {
         statusCode: 400,
-        message: 'Insira todos os dados para autenticação!'
+        message: `Campos ausentes: ${missingProps.formattedMissingProps}`
       };
 
       const user = await this.authUserSignInRepository.getUserByPhone(httpRequest.body.phone);
