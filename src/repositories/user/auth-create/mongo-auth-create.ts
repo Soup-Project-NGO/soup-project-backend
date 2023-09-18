@@ -7,7 +7,7 @@ import type { IUser } from '@models/index';
 import type { TCreateUserParams } from '@controllers/user/user.models';
 import type { IAuthCreateUserRepository } from '@controllers/user/auth-create/protocols';
 
-import { removeIdUnderline } from '@utils/index';
+import { replaceMongoId } from '@utils/index';
 
 export class MongoAuthCreateUserRepository implements IAuthCreateUserRepository {
   collection: string = 'user';
@@ -24,7 +24,7 @@ export class MongoAuthCreateUserRepository implements IAuthCreateUserRepository 
 
     if (!user) throw new Error('Unregistered user!');
 
-    return removeIdUnderline(user) as IUser;
+    return replaceMongoId(user) as IUser;
   }
 
   async isUserAlreadyRegistered(userPhone: IUser['phone']): Promise<boolean> {

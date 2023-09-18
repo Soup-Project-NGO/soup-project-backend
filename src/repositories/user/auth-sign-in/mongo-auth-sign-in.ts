@@ -7,7 +7,7 @@ import type { IUser } from '@models/index';
 import type { TCreateUserParams } from '@controllers/user/user.models';
 import type { IAuthUserSignInRepository } from '@controllers/user/auth-sign-in/protocols';
 
-import { removeIdUnderline } from '@utils/index';
+import { replaceMongoId } from '@utils/index';
 
 export class MongoAuthUserSignInRepository implements IAuthUserSignInRepository {
   collection: string = 'user';
@@ -18,6 +18,6 @@ export class MongoAuthUserSignInRepository implements IAuthUserSignInRepository 
       .collection<TCreateUserParams>(this.collection)
       .findOne({ phone: userPhone });
 
-    return removeIdUnderline(user);
+    return replaceMongoId(user);
   }
 }

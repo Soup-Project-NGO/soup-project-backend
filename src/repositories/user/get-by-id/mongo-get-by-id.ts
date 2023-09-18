@@ -7,7 +7,7 @@ import type { IUser } from '@models/user';
 import type { TCreateUserParams } from '@controllers/user/user.models';
 import type { IGetUserByIdRepository } from '@controllers/user/get-by-id/protocols';
 
-import { removeIdUnderline } from '@utils/index';
+import { replaceMongoId } from '@utils/index';
 
 export class MongoGetUserByIdRepository implements IGetUserByIdRepository {
   collection: string = 'user';
@@ -18,6 +18,6 @@ export class MongoGetUserByIdRepository implements IGetUserByIdRepository {
       .collection<TCreateUserParams>(this.collection)
       .findOne({ _id: ObjectId.createFromHexString(userId) });
 
-    return removeIdUnderline(user);
+    return replaceMongoId(user);
   }
 }

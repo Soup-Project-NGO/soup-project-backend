@@ -1,3 +1,3 @@
 export * from './bcrypt';
 export * from './bodyValidator';
-export * from './removeIdUnderline';
+export * from './replaceMongoId';
