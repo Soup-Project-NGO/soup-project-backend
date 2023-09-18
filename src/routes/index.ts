@@ -8,6 +8,9 @@ import { MongoAuthCreateUserRepository } from '@repositories/user/auth-create/mo
 import { AuthUserSignController } from '@controllers/user/auth-sign-in';
 import { MongoAuthUserSignInRepository } from '@repositories/user/auth-sign-in/mongo-auth-sign-in';
 
+import { GetAllUsersController } from '@controllers/user/get-all';
+import { MongoGetAllUsersRepository } from '@repositories/user/get-all/mongo-get-all';
+
 import { GetUserByIdController } from '@controllers/user/get-by-id';
 import { MongoGetUserByIdRepository } from '@repositories/user/get-by-id/mongo-get-by-id';
 
@@ -35,6 +38,16 @@ router.get(`${baseRoute}auth/user/sign-in`, async (req: Request, res: Response) 
   const { statusCode, body, message } = await authUserSignController.handle({
     body: req.body
   });
+
+  res.status(statusCode).json({ body, message });
+});
+
+router.get(`${baseRoute}user/get-all`, async (req: Request, res: Response) => {
+  const mongoGetAllUsersRepository = new MongoGetAllUsersRepository();
+
+  const getAllUsersController = new GetAllUsersController(mongoGetAllUsersRepository);
+
+  const { statusCode, message, body } = await getAllUsersController.handle();
 
   res.status(statusCode).json({ body, message });
 });
